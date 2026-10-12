@@ -40,8 +40,8 @@ const UI = {
       this.updateHud(dt);
       this.drawMinimap();
     } else if (G.state === 'title' && G.world) {
-      // Slow flyover of Vice City behind the title screen
-      G.player = G.player || newPlayer('lucia', -9999, -9999);
+      // Slow flyover of Costa Mira behind the title screen
+      G.player = G.player || newPlayer('marisol', -9999, -9999);
       Render.draw(dt);
     } else if (G.state === 'pause') {
       Render.draw(0);
@@ -62,7 +62,7 @@ const UI = {
     // Buttons keep keyboard focus after a click; Space would "press" them again instead of firing
     if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
     let saved = null;
-    try { saved = localStorage.getItem('leonida-radio'); } catch (e) { /* storage unavailable */ }
+    try { saved = localStorage.getItem('verano-radio'); } catch (e) { /* storage unavailable */ }
     this.setRadio(saved != null ? +saved : 1);
     this.lockPointer();
   },
@@ -78,7 +78,7 @@ const UI = {
     if (this.subT <= 0) {
       const next = this.subQueue.shift();
       if (next) {
-        const c = Object.values(LEONIDA.characters).find(ch => ch.short === next[0]);
+        const c = Object.values(VERANO.characters).find(ch => ch.short === next[0]);
         $('subtitle').innerHTML = `<b style="color:${c ? c.color : '#ffd400'}">${next[0]}:</b> ${escapeHtml(next[1])}`;
         $('subtitle').classList.add('show');
         this.subT = 3.5;
@@ -123,7 +123,7 @@ const UI = {
   help(text, dur = 3.5) { $('help').textContent = text; $('help').classList.add('show'); this.helpT = dur; },
   areaName(name) { $('area').textContent = name; $('area').classList.add('show'); this.areaT = 3.5; },
   vehicleName(name) {
-    const st = G.radio ? LEONIDA.radio[G.radio] : '';
+    const st = G.radio ? VERANO.radio[G.radio] : '';
     $('vehname').innerHTML = `${escapeHtml(name)}${st ? `<small>📻 ${escapeHtml(st)}</small>` : ''}`;
     $('vehname').classList.add('show'); this.vehT = 3;
   },
@@ -155,7 +155,7 @@ const UI = {
   hurt() { const f = $('hurt'); f.classList.remove('go'); void f.offsetWidth; f.classList.add('go'); },
   starsBump() { const s = $('stars'); s.classList.remove('bump'); void s.offsetWidth; s.classList.add('bump'); },
   updateCharBadge() {
-    const c = LEONIDA.characters[G.char];
+    const c = VERANO.characters[G.char];
     $('char-badge').innerHTML = `<span style="background:${c.color}"></span>${c.short}`;
   },
 
@@ -210,7 +210,7 @@ const UI = {
       const def = nextMission();
       if (def) {
         const pos = nodePos(def.start);
-        dot(pos.x, pos.y, def.char === 'any' ? '#ffd400' : LEONIDA.characters[def.char].color, 6, true, def.char === 'any' ? '★' : def.char[0].toUpperCase());
+        dot(pos.x, pos.y, def.char === 'any' ? '#ffd400' : VERANO.characters[def.char].color, 6, true, def.char === 'any' ? '★' : def.char[0].toUpperCase());
       }
     }
     const tgt = missionTarget();
@@ -229,7 +229,7 @@ const UI = {
     const S = cv.width, s = S / MW;
     g.imageSmoothingEnabled = false;
     g.drawImage(G.world.minimap, 0, 0, S, S);
-    for (const r of LEONIDA.regions) {
+    for (const r of VERANO.regions) {
       const [x0, y0, x1, y1] = r.rect;
       g.fillStyle = 'rgba(0,0,0,0.55)';
       g.font = `bold ${Math.round(S / 52)}px sans-serif`;
@@ -252,7 +252,7 @@ const UI = {
   buildTitle() {
     const save = loadSave();
     $('btn-continue').classList.toggle('hidden', !save);
-    const cards = Object.values(LEONIDA.characters).map(c => `
+    const cards = Object.values(VERANO.characters).map(c => `
       <div class="char-card" style="--c:${c.color}">
         <div class="char-avatar" style="background:${c.color}"><span style="background:${c.skin}"></span></div>
         <h3>${c.name}</h3><p>${c.bio}</p>
@@ -261,37 +261,36 @@ const UI = {
   },
 
   buildGuide() {
-    const I = LEONIDA.info;
-    const regions = LEONIDA.regions.map(r => `<li><b style="color:${r.color}">${r.name}</b> — ${r.desc}</li>`).join('');
-    const chars = Object.values(LEONIDA.characters).map(c => `<li><b style="color:${c.color}">${c.name}</b> — ${c.bio}</li>`).join('');
+    const I = VERANO.info;
+    const regions = VERANO.regions.map(r => `<li><b style="color:${r.color}">${r.name}</b> — ${r.desc}</li>`).join('');
+    const chars = Object.values(VERANO.characters).map(c => `<li><b style="color:${c.color}">${c.name}</b> — ${c.bio}</li>`).join('');
     const sup = I.supporting.map(([n, d]) => `<li><b>${n}</b> — ${d}</li>`).join('');
-    const veh = Object.values(LEONIDA.vehicles).map(v => `<li><b>${v.name}</b> — top speed ${Math.round(v.maxSpeed * 0.22)} mph</li>`).join('');
+    const veh = Object.values(VERANO.vehicles).map(v => `<li><b>${v.name}</b> — top speed ${Math.round(v.maxSpeed * 0.22)} mph</li>`).join('');
     const html = `
-      <p class="muted">Facts about the real game, collected from public sources (Rockstar's announcements, trailers and press). Gameplay in this web app is fan-made and fictional.</p>
+      <p class="muted">Verano is invented. Its cities, people, music and missions were all written for this game.</p>
       <div class="facts">
-        <div><span>Game</span>${I.title}</div>
-        <div><span>Developer</span>${I.developer}</div>
-        <div><span>Release</span>${I.release}</div>
-        <div><span>Platforms</span>${I.platforms}</div>
         <div><span>Setting</span>${I.state}</div>
+        <div><span>Capital</span>${I.capital}</div>
+        <div><span>Population</span>${I.population}</div>
+        <div><span>State motto</span>${I.motto}</div>
       </div>
-      <h4>Timeline</h4><ul>${I.trailers.map(t => `<li>${t}</li>`).join('')}${I.delays.map(t => `<li>${t}</li>`).join('')}</ul>
+      <h4>How Verano got this way</h4><ul>${I.history.map(t => `<li>${t}</li>`).join('')}</ul>
       <h4>Protagonists</h4><ul>${chars}</ul>
       <h4>Supporting cast</h4><ul>${sup}</ul>
-      <h4>Regions of Leonida</h4><ul>${regions}</ul>
-      <h4>Vehicles in this web app</h4><ul class="cols">${veh}</ul>`;
+      <h4>Regions of Verano</h4><ul>${regions}</ul>
+      <h4>Vehicles</h4><ul class="cols">${veh}</ul>`;
     for (const el of document.querySelectorAll('.guide-content')) el.innerHTML = html;
   },
 
   buildMissions() {
     const next = nextMission();
-    $('missions-list').innerHTML = LEONIDA.missions.map(m => {
+    $('missions-list').innerHTML = VERANO.missions.map(m => {
       const done = G.completed.has(m.id);
-      const who = m.char === 'any' ? 'Lucia & Jason' : LEONIDA.characters[m.char].short;
+      const who = m.char === 'any' ? 'Marisol & Dean' : VERANO.characters[m.char].short;
       const status = done ? '✔ Complete' : m === next ? '● Available' : '🔒 Locked';
       return `<div class="mission ${done ? 'done' : m === next ? 'next' : ''}"><b>${m.title}</b><span>${who} · $${m.reward.toLocaleString()}</span><em>${status}</em></div>`;
     }).join('');
-    $('stats').innerHTML = `Missions: ${G.completed.size}/${LEONIDA.missions.length} · Cash: $${G.money.toLocaleString()} · Playing as ${LEONIDA.characters[G.char].name}`;
+    $('stats').innerHTML = `Missions: ${G.completed.size}/${VERANO.missions.length} · Cash: $${G.money.toLocaleString()} · Playing as ${VERANO.characters[G.char].name}`;
   },
 
   pause(tab = 'map') {
@@ -325,7 +324,7 @@ const UI = {
     if (G.state !== 'play') return;
     G.state = 'pause';
     this.unlockPointer();
-    const feed = LEONIDA.newsFeed.slice().sort(() => Math.random() - 0.5).slice(0, 5);
+    const feed = VERANO.newsFeed.slice().sort(() => Math.random() - 0.5).slice(0, 5);
     this.buildRadioApp();
     $('phone-feed').innerHTML = feed.map(([u, t]) => `<div class="post"><b>${u}</b><p>${escapeHtml(t)}</p></div>`).join('');
     $('phone').classList.remove('hidden');
@@ -354,10 +353,10 @@ const UI = {
     $('opt-mute').onchange = (e) => Sfx.setMuted(e.target.checked);
     $('opt-radio-vol').oninput = (e) => {
       Radio.setVolume(+e.target.value / 100);
-      try { localStorage.setItem('leonida-radio-vol', e.target.value); } catch (err) { /* storage unavailable */ }
+      try { localStorage.setItem('verano-radio-vol', e.target.value); } catch (err) { /* storage unavailable */ }
     };
     try {
-      const v = localStorage.getItem('leonida-radio-vol');
+      const v = localStorage.getItem('verano-radio-vol');
       if (v != null) { $('opt-radio-vol').value = v; Radio.setVolume(+v / 100); }
     } catch (err) { /* storage unavailable */ }
     $('bigmap').addEventListener('click', (e) => {
@@ -396,7 +395,7 @@ const UI = {
           case 'KeyV': G.camMode = G.camMode === 'fp' ? 'chase' : 'fp'; this.help(G.camMode === 'fp' ? 'First-person driving camera' : 'Chase camera'); break;
           case 'KeyN': Sfx.setMuted(!Sfx.muted); $('opt-mute').checked = Sfx.muted; this.help(Sfx.muted ? 'Sound off' : 'Sound on'); break;
           case 'Digit1': case 'Digit2': case 'Digit3': case 'Digit4': case 'Digit5': {
-            const w = LEONIDA.weapons[+e.code.slice(5) - 1];
+            const w = VERANO.weapons[+e.code.slice(5) - 1];
             if (w && G.player.ammo[w.id] > 0) G.player.weapon = w.id;
             break;
           }
@@ -455,16 +454,16 @@ const UI = {
   },
 
   nextRadio(dir = 1) {
-    this.setRadio((G.radio + dir + LEONIDA.radio.length) % LEONIDA.radio.length);
+    this.setRadio((G.radio + dir + VERANO.radio.length) % VERANO.radio.length);
   },
 
   setRadio(i) {
     G.radio = i;
-    try { localStorage.setItem('leonida-radio', String(i)); } catch (e) { /* storage unavailable */ }
+    try { localStorage.setItem('verano-radio', String(i)); } catch (e) { /* storage unavailable */ }
     Sfx.init();
     Sfx.setStation(i);
     if (!i) { this.help('📻 Radio off'); $('nowplaying').classList.remove('show'); }
-    else if (i === 5) this.help(`📻 ${LEONIDA.radio[i]}`);
+    else if (i === 5) this.help(`📻 ${VERANO.radio[i]}`);
     this.buildRadioApp();
   },
 
@@ -479,7 +478,7 @@ const UI = {
   buildRadioApp() {
     const el = $('phone-radio');
     if (!el) return;
-    el.innerHTML = LEONIDA.radio.map((n, i) => `<button data-st="${i}" class="${i === G.radio ? 'on' : ''}">${i === 0 ? '⏹ Off' : escapeHtml(n)}</button>`).join('');
+    el.innerHTML = VERANO.radio.map((n, i) => `<button data-st="${i}" class="${i === G.radio ? 'on' : ''}">${i === 0 ? '⏹ Off' : escapeHtml(n)}</button>`).join('');
     for (const b of el.querySelectorAll('button')) b.onclick = () => this.setRadio(+b.dataset.st);
   },
 

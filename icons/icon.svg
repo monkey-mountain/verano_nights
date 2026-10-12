@@ -9,6 +9,6 @@
   </defs>
   <rect width="512" height="512" rx="96" fill="url(#bg)"/>
   <circle cx="256" cy="330" r="120" fill="#ffcf5c" opacity="0.35"/>
-  <text x="256" y="330" text-anchor="middle" font-family="Georgia, serif" font-weight="900" font-size="250" fill="url(#tx)">VI</text>
-  <text x="256" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="54" letter-spacing="8" fill="#fff">LEONIDA</text>
+  <text x="256" y="330" text-anchor="middle" font-family="Georgia, serif" font-weight="900" font-size="230" fill="url(#tx)">VN</text>
+  <text x="256" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="54" letter-spacing="8" fill="#fff">VERANO</text>
 </svg>

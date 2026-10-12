@@ -1,5 +1,5 @@
 // Offline cache for the web app.
-const CACHE = 'leonida-v4';
+const CACHE = 'verano-v5';
 const ASSETS = [
   './', './index.html', './css/style.css', './manifest.webmanifest', './icons/icon.svg',
   './js/vendor/three.min.js', './js/data.js', './js/world.js', './js/audio.js', './js/radio.js', './js/entities.js', './js/game.js', './js/render.js', './js/ui.js',

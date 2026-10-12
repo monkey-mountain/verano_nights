@@ -1,8 +1,8 @@
-# Leonida Stories — a GTA VI–inspired web game
+# Verano Nights — a 3D open-world browser game
 
-A fan-made **3D first-person** open-world game that runs in the browser (rendered with Three.js), set in **Leonida**, the state from *Grand Theft Auto VI*. It needs no build step and no installs (Three.js is bundled in `js/vendor/`), and it installs as a Progressive Web App (PWA) that works offline.
+An original **3D first-person** open-world game that runs in the browser (rendered with Three.js), set in **Verano**, an invented Gulf state of neon, swamp and sugar money. It needs no build step and no installs (Three.js is bundled in `js/vendor/`), and it installs as a Progressive Web App (PWA) that works offline.
 
-> Fan project. Not affiliated with or endorsed by Rockstar Games or Take-Two Interactive. All gameplay, missions, art and audio here are original and generated in code.
+> Everything in this repository is original: the state of Verano, its regions, characters, vehicles, radio stations, missions and dialogue were all written for this game, and every graphic and sound is generated in code at runtime.
 
 ## Play
 
@@ -22,18 +22,18 @@ To publish it, enable **GitHub Pages → Source: GitHub Actions** in the reposit
 - **3D first-person shooter view:** mouse-look aiming with a crosshair, a weapon in hand with recoil and muzzle flash, and real 3D buildings (lit windows at night), palm and pine trees, street lamps, cars and people.
 - **Driving cameras:** cockpit view or chase view (V or right click), with speed-based field of view and headlights at night.
 
-- **A procedurally built Leonida (256×256 tiles):** Vice City, the Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia and Mount Kalaga National Park, connected by highways and bridges.
-- **Two protagonists:** switch between Lucia Caminos and Jason Duval with Tab. Each one keeps their own position, health and weapons.
+- **A procedurally built Verano (256×256 tiles):** Costa Mira, the Mira Cays, Sawgrass Basin, Port Calloway, Cane Hollow and Tamarind Ridge National Park, connected by highways and bridges.
+- **Two protagonists:** switch between Marisol Reyes and Dean Walker with Tab. Each one keeps their own position, health and weapons.
 - **Driving:** arcade physics with drifting, handbrake, off-road slowdown, crash damage, skid marks, fires and explosions. There are 9 vehicle types.
 - **Living city:** traffic follows the road network, and pedestrians walk around and panic.
 - **Wanted system (1–5 stars):** police drive along the road graph to chase you, get out of their cars, arrest or shoot you, and send a helicopter at 4+ stars. You lose them by staying out of sight.
 - **Six-mission story:** prison release, a car theft against the clock, a store robbery, a swamp shootout, a truck takedown, and a bank heist finale.
 - **Robbable stores,** pickups (weapons, health, armor, cash), and safehouses where you save and sleep.
 - **World and HUD:** day/night cycle with street lights and headlights, rain, a minimap with GPS routing, and a full map where you set waypoints.
-- **Radio:** six stations that play anywhere (R / Shift+R, or the phone's radio app): synthwave, trap, reggae, country and reggaeton songs composed live in Web Audio, plus WCTR talk radio read aloud by the browser's speech synthesizer. Volume is in Settings.
+- **Radio:** six stations that play anywhere (R / Shift+R, or the phone's radio app): synthwave, trap, reggae, country and reggaeton songs composed live in Web Audio, plus KVRO talk radio read aloud by the browser's speech synthesizer. Volume is in Settings.
 - **Sound effects:** synthesized weapon, engine and siren sounds.
 - **Phone feed, keyboard and mouse controls, and touch controls on mobile.**
-- **Leonida Guide** with what has been announced about the real game (see below).
+- **Verano Guide** with the state's regions, cast and history.
 
 ## Controls
 
@@ -51,16 +51,22 @@ To publish it, enable **GitHub Pages → Source: GitHub Actions** in the reposit
 | Radio / horn | R (Shift+R back) / H |
 | Map / pause / phone | M / Esc / T |
 
-## Real-world data used
+## The setting
 
-These facts come from public sources, such as Rockstar's announcements and trailers and press coverage:
+Verano is a fictional Gulf state. Its six regions are:
 
-- **Release:** November 19, 2026, on PS5 and Xbox Series X|S. It was first planned for 2025, then delayed to May 26, 2026, then to November 19, 2026.
-- **Setting:** the state of Leonida, Rockstar's take on Florida. Its regions are Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia and Mount Kalaga National Park.
-- **Protagonists:** Lucia Caminos and Jason Duval.
-- **Supporting cast:** Cal Hampton, Boobie Ike, Dre'Quan Priest, Real Dimez, Raul Bautista and Brian Heder.
+| Region | What it is |
+|---|---|
+| **Costa Mira** | A city of neon, beaches, nightlife and new money. |
+| **Mira Cays** | A chain of islands linked by a long ocean highway. Boats, bars and smugglers. |
+| **Sawgrass Basin** | Swampland wilderness of airboats, alligators and back-road dealers. |
+| **Port Calloway** | A faded resort town on the Gulf coast, now a port full of dockworkers. |
+| **Cane Hollow** | Industrial heartland built on sugar refineries and farmland. |
+| **Tamarind Ridge National Park** | Forest trails, rivers and campgrounds in the rural north. |
 
-Everything else (map layout, missions, dialogue, vehicles' stats) is invented for this fan game.
+**Protagonists:** Marisol Reyes, just out of the Verano State Penitentiary, and Dean Walker, a drifter doing jobs for smugglers down in the Cays. Switch between them with Tab.
+
+**Supporting cast:** Teddy Vance, Ray Mondego, Marcus Vale, Twin Fates, Hector Salas and Denny Kroll.
 
 ## Code layout
 

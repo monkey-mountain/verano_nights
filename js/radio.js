@@ -6,45 +6,45 @@ const NOTE = (n) => 440 * Math.pow(2, (n - 69) / 12); // MIDI note -> Hz
 
 const STATIONS = {
   1: {
-    name: 'Vice City FM', genre: '80s synthwave', bpm: 112, root: 45, minor: true,
+    name: 'Costa Mira FM', genre: '80s synthwave', bpm: 112, root: 45, minor: true,
     prog: [[0, 3, 7], [-4, 0, 3], [-7, -4, 0], [-2, 2, 5]],
-    songs: [['Neon Ocean Drive', 'The Pastels'], ['Midnight in Vice', 'Laser Lucia'], ['Starfish Island', 'Synth Cartel'], ['Pink Flamingo', 'Miami Vibes Inc.']],
+    songs: [['Neon Harbor Drive', 'Velvet Coast'], ['Midnight in Mira', 'Laser Marisol'], ['Pelican Key', 'Synth Cartel'], ['Pink Flamingo', 'Sunset Vibes Inc.']],
   },
   2: {
-    name: 'Leonida Bass Radio', genre: 'trap / hip-hop', bpm: 140, root: 41, minor: true,
+    name: 'Verano Bass Radio', genre: 'trap / hip-hop', bpm: 140, root: 41, minor: true,
     prog: [[0, 3, 7], [0, 3, 7], [-4, 0, 3], [-2, 2, 5]],
-    songs: [['Keys to the City', 'Real Dimez'], ['Bando in the Glades', 'Lil Gator'], ['Drip Like the Gulf', 'Dre\'Quan Priest ft. Boobie'], ['Turnpike', 'Big Sunshine']],
+    songs: [['Cays to the City', 'Twin Fates'], ['Bando in the Glades', 'Lil Gator'], ['Drip Like the Gulf', 'Marcus Vale ft. Ray'], ['Turnpike', 'Big Sunshine']],
   },
   3: {
-    name: 'Keys Island Rhythms', genre: 'reggae / tropical', bpm: 84, root: 48, minor: false,
+    name: 'Cays Island Rhythms', genre: 'reggae / tropical', bpm: 84, root: 48, minor: false,
     prog: [[0, 4, 7], [5, 9, 12], [7, 11, 14], [5, 9, 12]],
-    songs: [['Seven Bridges', 'Coral Sound System'], ['Salt Life', 'Island Jah'], ['Sunset Ferry', 'Conch Republic'], ['No Worries Mon', 'Keys Collective']],
+    songs: [['Long Reef', 'Coral Sound System'], ['Salt Season', 'Island Jah'], ['Sunset Ferry', 'Cayo Collective'], ['No Worries Mon', 'Cays Collective']],
   },
   4: {
-    name: 'Grassrivers Country', genre: 'country', bpm: 108, root: 43, minor: false,
+    name: 'Sawgrass Country', genre: 'country', bpm: 108, root: 43, minor: false,
     prog: [[0, 4, 7], [5, 9, 12], [0, 4, 7], [7, 11, 14]],
-    songs: [['Airboat Heart', 'Dusty Hampton'], ['Gator Bait Blues', 'The Swamp Kings'], ['Pickup Truck Prayer', 'Mary-Lou Bayou'], ['Mud on My Boots', 'Cal & The Coasties']],
+    songs: [['Airboat Heart', 'Dusty Vance'], ['Gator Bait Blues', 'The Swamp Kings'], ['Pickup Truck Prayer', 'Mary-Lou Bayou'], ['Mud on My Boots', 'Teddy & The Coasties']],
   },
   6: {
-    name: 'Flash Latino', genre: 'reggaeton / latin', bpm: 96, root: 45, minor: true,
+    name: 'Radio Fuego', genre: 'reggaeton / latin', bpm: 96, root: 45, minor: true,
     prog: [[0, 3, 7], [-4, 0, 3], [-2, 2, 5], [-7, -4, 0]],
-    songs: [['Calle Ocho', 'DJ Caminos'], ['Fuego en Vice', 'La Reina del Sur'], ['Perreo Leonida', 'El Flamingo'], ['Noche Caliente', 'Los Cayos']],
+    songs: [['Calle Ocho', 'DJ Reyes'], ['Fuego en Mira', 'La Reina del Sol'], ['Perreo Verano', 'El Flamingo'], ['Noche Caliente', 'Los Cayos']],
   },
 };
 
 const TALK = [
-  'You are listening to W C T R, Leonida Today. I\'m your host. Let\'s get right into the news.',
-  'Breaking news from Vice City. A man was arrested for walking an alligator through a shopping mall. He says the gator was his emotional support animal.',
-  'Traffic update. The Leonida Turnpike is backed up near Ambrosia after a truck full of sugar tipped over. Drivers report the air smells like cotton candy.',
+  'You are listening to K V R O, Verano Today. I\'m your host. Let\'s get right into the news.',
+  'Breaking news from Costa Mira. A man was arrested for walking an alligator through a shopping mall. He says the gator was his emotional support animal.',
+  'Traffic update. The Verano Turnpike is backed up near Cane Hollow after a truck full of sugar tipped over. Drivers report the air smells like cotton candy.',
   'This hour is brought to you by Gator-B-Gone. Alligator in your pool? Alligator in your car? Call Gator-B-Gone. We remove the gator. Mostly.',
-  'Police in Vice City remind residents that robbing a convenience store is a crime, even if you are filming it for your followers.',
-  'Weather for Leonida. Hot. Humid. A chance of afternoon thunderstorms. And possibly a hurricane. Have a nice day.',
-  'Caller on line two says he saw a couple on an airboat doing sixty miles an hour through the Grassrivers. Sir, that is not news. That is Tuesday.',
-  'Port Gellhorn dockworkers are on strike again. Cargo is piling up. Somebody please tell them I ordered a jet ski.',
-  'This segment is sponsored by Leonida Lottery. You probably won\'t win. But you might! You won\'t.',
-  'Coming up after the break, we talk to a man from Ambrosia who claims the sugar refinery is controlled by lizards. Stay with us.',
-  'Real estate in the Keys is up forty percent. If you want a house on the water, you will need a boat to sleep in. Back to you.',
-  'Remember folks: in Leonida, the sun always shines, the rent is always due, and the cops are always watching. This is W C T R.',
+  'Police in Costa Mira remind residents that robbing a convenience store is a crime, even if you are filming it for your followers.',
+  'Weather for Verano. Hot. Humid. A chance of afternoon thunderstorms. And possibly a hurricane. Have a nice day.',
+  'Caller on line two says he saw a couple on an airboat doing sixty miles an hour through the Sawgrass Basin. Sir, that is not news. That is Tuesday.',
+  'Port Calloway dockworkers are on strike again. Cargo is piling up. Somebody please tell them I ordered a jet ski.',
+  'This segment is sponsored by Verano Lottery. You probably won\'t win. But you might! You won\'t.',
+  'Coming up after the break, we talk to a man from Cane Hollow who claims the sugar refinery is controlled by lizards. Stay with us.',
+  'Real estate in the Cays is up forty percent. If you want a house on the water, you will need a boat to sleep in. Back to you.',
+  'Remember folks: in Verano, the sun always shines, the rent is always due, and the cops are always watching. This is K V R O.',
 ];
 
 const Radio = {
@@ -224,7 +224,7 @@ const Radio = {
   talkLoop() {
     const synth = window.speechSynthesis;
     if (!synth || typeof SpeechSynthesisUtterance === 'undefined') {
-      if (typeof UI !== 'undefined') UI.nowPlaying('WCTR Talk', 'Talk radio needs speech synthesis', 'not available in this browser');
+      if (typeof UI !== 'undefined') UI.nowPlaying('KVRO Talk', 'Talk radio needs speech synthesis', 'not available in this browser');
       return;
     }
     if (this.station !== 5) return;
@@ -236,6 +236,6 @@ const Radio = {
     u.onend = () => { if (this.station === 5) setTimeout(() => this.talkLoop(), 900); };
     this.utter = u;
     synth.speak(u);
-    if (typeof UI !== 'undefined') UI.nowPlaying('WCTR Talk', 'Leonida Today', 'Live');
+    if (typeof UI !== 'undefined') UI.nowPlaying('KVRO Talk', 'Verano Today', 'Live');
   },
 };

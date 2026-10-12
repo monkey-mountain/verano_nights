@@ -1,7 +1,7 @@
 {
-  "name": "Leonida Stories — GTA VI fan web game",
-  "short_name": "Leonida",
-  "description": "A fan-made GTA VI-inspired open-world browser game set in Leonida.",
+  "name": "Verano Nights",
+  "short_name": "Verano",
+  "description": "An original 3D open-world browser game set in the Gulf state of Verano.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "fullscreen",

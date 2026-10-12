@@ -12,7 +12,7 @@ const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 class Vehicle {
   constructor(type, x, y, a, color) {
     this.type = type;
-    this.spec = LEONIDA.vehicles[type];
+    this.spec = VERANO.vehicles[type];
     this.x = x; this.y = y; this.a = a;
     this.vx = 0; this.vy = 0; this.spd = 0;
     this.color = color || pick(this.spec.colors);

@@ -1,4 +1,4 @@
-// World generation and rendering for the state of Leonida.
+// World generation and rendering for the state of Verano.
 'use strict';
 
 const T = 32;          // tile size in pixels
@@ -76,7 +76,7 @@ class World {
   tileAt(px, py) { return this.get(Math.floor(px / T), Math.floor(py / T)); }
 
   regionAt(tx, ty) {
-    for (const r of LEONIDA.regions) {
+    for (const r of VERANO.regions) {
       const [x0, y0, x1, y1] = r.rect;
       if (tx >= x0 && tx < x1 && ty >= y0 && ty < y1) return r;
     }
@@ -100,7 +100,7 @@ class World {
           const dx = (x - cx) / rx, dy = (y - cy) / ry;
           if (dx * dx + dy * dy < 1 + n * 0.06) land = true;
         }
-        // Inland lakes in Kalaga and Grassrivers
+        // Inland lakes in Tamarind Ridge and the Sawgrass Basin
         const lake = fbm(x / 9, y / 9, 31);
         if (land && x > 10 && x < 160 && y > 100 && y < 198 && lake > 0.72) land = false;
         this.tiles[this.idx(x, y)] = land ? TILE.GRASS : TILE.WATER;
@@ -114,17 +114,17 @@ class World {
         const r = this.regionAt(x, y);
         if (!r) continue;
         const n = fbm(x / 6, y / 6, 11);
-        if (r.id === 'grass') {
+        if (r.id === 'sawgrass') {
           if (n > 0.64) this.set(x, y, TILE.WATER);
           else if (n > 0.38) this.set(x, y, TILE.SWAMP);
           else if (hash2(x, y, 5) > 0.93) this.set(x, y, TILE.TREE);
-        } else if (r.id === 'kalaga') {
+        } else if (r.id === 'tamarind') {
           if (n > 0.42) this.set(x, y, hash2(x, y, 3) > 0.55 ? TILE.TREE : TILE.FOREST);
           else if (hash2(x, y, 4) > 0.9) this.set(x, y, TILE.TREE);
-        } else if (r.id === 'ambrosia') {
+        } else if (r.id === 'cane') {
           if (n > 0.45 && n < 0.7) this.set(x, y, TILE.FIELD);
           else if (hash2(x, y, 9) > 0.97) this.set(x, y, TILE.TREE);
-        } else if (r.id === 'keys' || r.id === 'gellhorn') {
+        } else if (r.id === 'cays' || r.id === 'calloway') {
           if (hash2(x, y, 6) > 0.95) this.set(x, y, TILE.TREE);
         }
       }
@@ -137,11 +137,11 @@ class World {
         const t = this.get(x, y);
         if (t === TILE.WATER || t === TILE.SWAMP) continue;
         const reg = this.regionAt(x, y);
-        const rad = reg && (reg.id === 'vice' || reg.id === 'keys') ? 3 : 2;
+        const rad = reg && (reg.id === 'mira' || reg.id === 'cays') ? 3 : 2;
         let near = false;
         for (let dy = -rad; dy <= rad && !near; dy++)
           for (let dx = -rad; dx <= rad && !near; dx++)
-            if (this.get(x + dx, y + dy) === TILE.WATER && !(reg && reg.id === 'grass')) near = true;
+            if (this.get(x + dx, y + dy) === TILE.WATER && !(reg && reg.id === 'sawgrass')) near = true;
         if (near) beach[this.idx(x, y)] = 1;
       }
     }
@@ -149,8 +149,8 @@ class World {
 
     // 4. City grids
     const cities = [
-      { id: 'vice', rect: [168, 12, 240, 192] },
-      { id: 'gellhorn', rect: [12, 12, 72, 84] },
+      { id: 'mira', rect: [168, 12, 240, 192] },
+      { id: 'calloway', rect: [12, 12, 72, 84] },
     ];
     for (const c of cities) {
       const [x0, y0, x1, y1] = c.rect;
@@ -169,14 +169,14 @@ class World {
         for (let y = y0; y <= y1 + 1; y++) for (let k = 0; k < 2; k++) this.setRoad(x0 + k, y);
       }
     };
-    hw(12, 96, 240, 96);    // Leonida Turnpike
-    hw(72, 48, 168, 48);    // Ambrosia Road
-    hw(72, 12, 72, 192);    // Kalaga Trail
-    hw(120, 48, 120, 228);  // Grassrivers Parkway
+    hw(12, 96, 240, 96);    // Verano Turnpike
+    hw(72, 48, 168, 48);    // Cane Hollow Road
+    hw(72, 12, 72, 192);    // Tamarind Trail
+    hw(120, 48, 120, 228);  // Sawgrass Basin Parkway
     hw(156, 48, 156, 192);
     hw(72, 192, 240, 192);  // Southern Highway
     hw(120, 228, 240, 228); // Overseas Highway (Keys)
-    hw(228, 192, 228, 228); // Seven Bridges
+    hw(228, 192, 228, 228); // Long Reef
     hw(120, 144, 156, 144);
     hw(12, 144, 72, 144);
     hw(108, 12, 108, 48);
@@ -204,7 +204,7 @@ class World {
       }
     }
 
-    // 8. Ambrosia industry + penitentiary
+    // 8. Cane Hollow industry + penitentiary
     for (let bx = 84; bx < 156; bx += 12) {
       if (bx === 108) continue;
       if (rng() < 0.7) this.placeBuilding(bx + 2, 51, 7, 6, WAREHOUSE[Math.floor(rng() * WAREHOUSE.length)], 10, 'warehouse');
@@ -215,7 +215,7 @@ class World {
     this.placeBuilding(92, 66, 12, 4, '#b9b3a6', 14, 'prison');
     for (let y = 60; y < 66; y++) for (let x = 92; x < 104; x++) this.set(x, y, TILE.LOT);
 
-    // 9. Keys houses and Grassrivers shacks
+    // 9. Keys houses and Sawgrass Basin shacks
     for (let x = 122; x < 244; x += 3) {
       for (const side of [-1, 1]) {
         const y = side < 0 ? 224 : 232;
@@ -269,9 +269,9 @@ class World {
       if (t === TILE.WATER || t === TILE.ROAD || t === TILE.BRIDGE) return;
     }
     const roll = rng();
-    const downtown = city === 'vice' && x > 186 && x < 226 && y > 60 && y < 130;
-    const beachfront = city === 'vice' && x >= 226;
-    if (roll < (city === 'gellhorn' ? 0.16 : 0.08) && !downtown) {
+    const downtown = city === 'mira' && x > 186 && x < 226 && y > 60 && y < 130;
+    const beachfront = city === 'mira' && x >= 226;
+    if (roll < (city === 'calloway' ? 0.16 : 0.08) && !downtown) {
       for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) {
         this.set(x + i, y + j, hash2(x + i, y + j, 21) > 0.85 ? TILE.TREE : TILE.PARK);
       }
@@ -282,9 +282,9 @@ class World {
       this.lots.push({ x, y, w, h });
       return;
     }
-    const palette = city === 'gellhorn' ? GREYS.concat(['#b58a62', '#9c7a5a']) : (beachfront || rng() < 0.5 ? PASTELS : GREYS);
+    const palette = city === 'calloway' ? GREYS.concat(['#b58a62', '#9c7a5a']) : (beachfront || rng() < 0.5 ? PASTELS : GREYS);
     const pick = () => palette[Math.floor(rng() * palette.length)];
-    const hBase = downtown ? 40 : beachfront ? 22 : city === 'vice' ? 14 : 8;
+    const hBase = downtown ? 40 : beachfront ? 22 : city === 'mira' ? 14 : 8;
     const layout = downtown ? (rng() < 0.6 ? 0 : 1) : Math.floor(rng() * 4);
     const parts = [];
     if (layout === 0) parts.push([0, 0, 8, 8]);
@@ -313,7 +313,7 @@ class World {
     else if (b.y + b.h === by + bh) { dx = (b.x + b.w / 2) * T; dy = (b.y + b.h) * T + 14; }
     else if (b.x === bx) { dx = b.x * T - 14; dy = (b.y + b.h / 2) * T; }
     else { dx = (b.x + b.w) * T + 14; dy = (b.y + b.h / 2) * T; }
-    const names = ['24/7', 'Rob\'s Liquor', 'Limited Gas', 'Vice Mart', 'Bean Machine', 'Cluckin\' Bell', 'Pharmacy', 'Burger Shot'];
+    const names = ['24/7', 'Rob\'s Liquor', 'Gulfline Gas', 'Vice Mart', 'Bean Barrel', 'Cluckin\' Bell', 'Pharmacy', 'Patty Palace'];
     b.store = true;
     this.stores.push({ x: dx, y: dy, name: names[this.stores.length % names.length], cooldown: 0, building: b });
   }
@@ -485,7 +485,7 @@ class World {
       for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if (this.get(x + dx, y + dy) !== TILE.WATER && this.get(x + dx, y + dy) !== TILE.BRIDGE) shore = true;
       const deep = fbm(x / 10, y / 10, 77);
       col = shore ? '#36a9c4' : deep > 0.55 ? '#1a6fa3' : '#1d7cb0';
-      if (this.regionAt(x, y)?.id === 'grass') col = shore ? '#3f7d6a' : '#33695a';
+      if (this.regionAt(x, y)?.id === 'sawgrass') col = shore ? '#3f7d6a' : '#33695a';
     }
     g.fillStyle = col;
     g.fillRect(px, py, T, T);
@@ -569,7 +569,7 @@ class World {
   drawTree(g, x, y, px, py) {
     const r = 11 + hash2(x, y, 2) * 6;
     const cx = px + T / 2 + (hash2(x, y, 3) - 0.5) * 8, cy = py + T / 2 + (hash2(x, y, 4) - 0.5) * 8;
-    const palm = this.regionAt(x, y)?.id === 'vice' || this.regionAt(x, y)?.id === 'keys';
+    const palm = this.regionAt(x, y)?.id === 'mira' || this.regionAt(x, y)?.id === 'cays';
     g.fillStyle = 'rgba(0,0,0,0.25)';
     g.beginPath(); g.arc(cx + 5, cy + 5, r, 0, Math.PI * 2); g.fill();
     if (palm) {

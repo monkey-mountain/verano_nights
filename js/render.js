@@ -212,7 +212,7 @@ const Render = {
     for (let y = 0; y < MH; y++) for (let x = 0; x < MW; x++) {
       if (world.get(x, y) !== TILE.TREE) continue;
       const reg = world.regionAt(x, y);
-      const kind = reg && (reg.id === 'vice' || reg.id === 'keys') ? 'palm' : reg && reg.id === 'kalaga' ? 'pine' : (hash2(x, y, 8) > 0.6 ? 'pine' : 'round');
+      const kind = reg && (reg.id === 'mira' || reg.id === 'cays') ? 'palm' : reg && reg.id === 'tamarind' ? 'pine' : (hash2(x, y, 8) > 0.6 ? 'pine' : 'round');
       kinds[kind].push([(x + 0.5 + (hash2(x, y, 3) - 0.5) * 0.4) * T, (y + 0.5 + (hash2(x, y, 4) - 0.5) * 0.4) * T, 0.8 + hash2(x, y, 2) * 0.5]);
     }
     const total = kinds.palm.length + kinds.pine.length + kinds.round.length;
@@ -562,7 +562,7 @@ const Render = {
         const def = nextMission();
         if (def) {
           const pos = nodePos(def.start);
-          const col = def.char === 'any' ? '#ffd400' : LEONIDA.characters[def.char].color;
+          const col = def.char === 'any' ? '#ffd400' : VERANO.characters[def.char].color;
           if (near(pos, 2500)) {
             this.cylinder(pos.x, pos.y, 30, 40, col);
             this.sprite(pos.x, pos.y, 52 + Math.sin(G.t * 3) * 3, 18, def.char === 'any' ? '★' : def.char[0].toUpperCase(), col);

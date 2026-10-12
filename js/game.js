@@ -3,7 +3,7 @@
 
 const HEAT_STARS = [1, 4, 10, 22, 40];
 const HOSPITALS = [[16, 6], [15, 19], [10, 12], [3, 5], [11, 4], [6, 12]];
-const SAFEHOUSES = [{ at: [17, 7], name: 'Vice City Safehouse' }, { at: [17, 19], name: 'Brian\'s Place (Keys)' }];
+const SAFEHOUSES = [{ at: [17, 7], name: 'Costa Mira Safehouse' }, { at: [17, 19], name: 'Denny\'s Place (Keys)' }];
 
 const G = {
   state: 'title',
@@ -22,7 +22,7 @@ const G = {
   recoil: 0,
   mission: null,
   completed: new Set(),
-  char: 'lucia',
+  char: 'marisol',
   chars: {},
   radio: 0,
   waypoint: null,
@@ -51,7 +51,7 @@ function initGame(saveData) {
   const w = G.world;
   G.vehicles = []; G.peds = []; G.bullets = []; G.particles = []; G.decals = []; G.tracers = [];
   G.heli = null; G.heat = 0; G.stars = 0; G.mission = null; G.robbing = null; G.waypoint = null;
-  G.pickups = LEONIDA.pickups.map(([type, tx, ty]) => {
+  G.pickups = VERANO.pickups.map(([type, tx, ty]) => {
     const p = w.nearestFree((tx + 0.5) * T, (ty + 0.5) * T, false);
     return { type, x: p.x, y: p.y, respawn: 0 };
   });
@@ -71,10 +71,10 @@ function initGame(saveData) {
     G.money = 500;
     G.completed = new Set();
     G.time = 9 * 60;
-    G.char = 'lucia';
+    G.char = 'marisol';
     G.chars = {
-      lucia: { x: start.x + 40, y: start.y + 40, health: 100, armor: 0, ammo: { fist: Infinity, pistol: 36 }, weapon: 'pistol' },
-      jason: { x: jStart.x + 40, y: jStart.y + 40, health: 100, armor: 0, ammo: { fist: Infinity, pistol: 60, shotgun: 12 }, weapon: 'pistol' },
+      marisol: { x: start.x + 40, y: start.y + 40, health: 100, armor: 0, ammo: { fist: Infinity, pistol: 36 }, weapon: 'pistol' },
+      dean: { x: jStart.x + 40, y: jStart.y + 40, health: 100, armor: 0, ammo: { fist: Infinity, pistol: 60, shotgun: 12 }, weapon: 'pistol' },
     };
   }
   loadChar(G.char);
@@ -104,14 +104,14 @@ function switchCharacter() {
   if (G.stars > 0) return UI.help('Lose the cops before switching characters.');
   if (G.player.vehicle) exitVehicle(true);
   storeChar();
-  const next = G.char === 'lucia' ? 'jason' : 'lucia';
+  const next = G.char === 'marisol' ? 'dean' : 'marisol';
   loadChar(next);
   G.vehicles = G.vehicles.filter(v => v.mission);
   G.peds = G.peds.filter(p => p.mission);
   for (const lot of G.world.lots) lot.spawned = false;
   G.cam.x = G.player.x; G.cam.y = G.player.y;
   UI.flash();
-  UI.help(`Switched to ${LEONIDA.characters[next].name}.`);
+  UI.help(`Switched to ${VERANO.characters[next].name}.`);
 }
 
 function saveGame(silent) {
@@ -120,13 +120,13 @@ function saveGame(silent) {
     v: 1, money: G.money, completed: [...G.completed], time: G.time, char: G.char,
     chars: JSON.parse(JSON.stringify(G.chars, (k, v) => (v === Infinity ? undefined : v))),
   };
-  try { localStorage.setItem('leonida-save', JSON.stringify(data)); } catch (e) { /* storage unavailable */ }
+  try { localStorage.setItem('verano-save', JSON.stringify(data)); } catch (e) { /* storage unavailable */ }
   if (!silent) UI.help('Game saved.');
 }
 
 function loadSave() {
   try {
-    const raw = localStorage.getItem('leonida-save');
+    const raw = localStorage.getItem('verano-save');
     return raw ? JSON.parse(raw) : null;
   } catch (e) { return null; }
 }
@@ -170,7 +170,7 @@ function panicAround(x, y, radius) {
 }
 
 // ------------------------------------------------------------------ combat
-function weaponDef(id) { return LEONIDA.weapons.find(w => w.id === id); }
+function weaponDef(id) { return VERANO.weapons.find(w => w.id === id); }
 
 function fire(shooter, x, y, a, wid, owner) {
   const wd = weaponDef(wid);
@@ -325,7 +325,7 @@ function exitVehicle(force) {
 
 function cycleWeapon(dir = 1) {
   const p = G.player;
-  const owned = LEONIDA.weapons.filter(w => p.ammo[w.id] > 0).map(w => w.id);
+  const owned = VERANO.weapons.filter(w => p.ammo[w.id] > 0).map(w => w.id);
   if (!owned.length) return;
   let i = owned.indexOf(p.weapon);
   i = (i + dir + owned.length) % owned.length;
@@ -434,7 +434,7 @@ function playerDown(kind) {
   if (G.mission) failMission(kind === 'wasted' ? 'You died.' : 'You were busted.');
   Sfx.wasted();
   Sfx.setStation(0);
-  UI.bigMessage(kind === 'wasted' ? 'WASTED' : 'BUSTED', kind === 'wasted' ? '#c0392b' : '#3a6ee8', 4);
+  UI.bigMessage(kind === 'wasted' ? 'FLATLINED' : 'ARRESTED', kind === 'wasted' ? '#c0392b' : '#3a6ee8', 4);
   setTimeout(() => respawn(kind), 3800);
 }
 
@@ -533,7 +533,7 @@ function interact(dt) {
 
 // ------------------------------------------------------------------ missions
 function nextMission() {
-  return LEONIDA.missions.find(m => !G.completed.has(m.id)) || null;
+  return VERANO.missions.find(m => !G.completed.has(m.id)) || null;
 }
 
 function checkMissionStart() {
@@ -543,7 +543,7 @@ function checkMissionStart() {
   const pos = nodePos(def.start);
   if (dist(G.player, pos) > 60) return;
   if (def.char !== 'any' && def.char !== G.char) {
-    UI.prompt(`This mission is for ${LEONIDA.characters[def.char].short}. Press Tab to switch.`);
+    UI.prompt(`This mission is for ${VERANO.characters[def.char].short}. Press Tab to switch.`);
     return;
   }
   if (G.stars > 0) { UI.prompt('Lose the cops to start the mission.'); return; }
@@ -623,7 +623,7 @@ function updateMission(dt) {
     case 'goto': {
       const near = dist(p, m.target) < 70;
       done = near && (!s.inVehicle || p.vehicle) && (!s.onFoot || !p.vehicle) && (!s.keepVehicle || p.vehicle === m.veh);
-      if (near && !done) UI.prompt(s.onFoot ? 'Get out of the vehicle.' : s.keepVehicle ? 'You need the Infernus.' : 'You need a vehicle.');
+      if (near && !done) UI.prompt(s.onFoot ? 'Get out of the vehicle.' : s.keepVehicle ? 'You need the Aurelio.' : 'You need a vehicle.');
       break;
     }
     case 'kill':
@@ -652,7 +652,7 @@ function passMission() {
   UI.bigMessage('MISSION PASSED', '#ffd400', 4, 'passed', `+$${m.def.reward.toLocaleString()}`);
   UI.subtitles(m.def.outro || []);
   UI.objective(null);
-  if (!nextMission()) setTimeout(() => UI.bigMessage('THE END?', '#ff4fa3', 5, 'passed', 'Leonida is yours. Free roam unlocked.'), 5000);
+  if (!nextMission()) setTimeout(() => UI.bigMessage('THE END?', '#ff4fa3', 5, 'passed', 'Verano is yours. Free roam unlocked.'), 5000);
   saveGame(true);
 }
 
@@ -687,7 +687,7 @@ function missionTarget() {
 function spawnTraffic() {
   const p = G.player, w = G.world;
   const region = w.regionAt(Math.floor(p.x / T), Math.floor(p.y / T));
-  const density = region ? ({ vice: 26, gellhorn: 16, keys: 12, ambrosia: 10, grass: 8, kalaga: 7 })[region.id] : 6;
+  const density = region ? ({ mira: 26, calloway: 16, cays: 12, cane: 10, sawgrass: 8, tamarind: 7 })[region.id] : 6;
   const count = G.vehicles.filter(v => v.ctrl === 'traffic' || (v.ctrl === 'police' && v.mode === 'patrol')).length;
   if (count >= density) return;
   for (let tries = 0; tries < 6; tries++) {
@@ -697,7 +697,7 @@ function spawnTraffic() {
     const to = w.nodes[pick(nd.adj)];
     const dx = Math.sign(to.x - nd.x), dy = Math.sign(to.y - nd.y);
     const police = Math.random() < 0.08;
-    const type = police ? 'police' : pick(LEONIDA.trafficMix);
+    const type = police ? 'police' : pick(VERANO.trafficMix);
     const v = new Vehicle(type, nd.x - dy * 16, nd.y + dx * 16, Math.atan2(dy, dx));
     if (G.vehicles.some(o => dist(o, v) < 60)) continue;
     v.ctrl = police ? 'police' : 'traffic';
@@ -832,7 +832,7 @@ function policeDriveTo(v, tx, ty, dt, aggressive) {
 function spawnPeds() {
   const p = G.player, w = G.world;
   const region = w.regionAt(Math.floor(p.x / T), Math.floor(p.y / T));
-  const density = region ? ({ vice: 40, gellhorn: 24, keys: 14, ambrosia: 8, grass: 6, kalaga: 8 })[region.id] : 4;
+  const density = region ? ({ mira: 40, calloway: 24, cays: 14, cane: 8, sawgrass: 6, tamarind: 8 })[region.id] : 4;
   const count = G.peds.filter(e => e.kind === 'civ' && !e.dead).length;
   if (count >= density) return;
   for (let tries = 0; tries < 10; tries++) {
@@ -1205,7 +1205,7 @@ function spawnParkedCars() {
     lot.spawned = true;
     for (let k = 0; k < 4; k++) {
       if (Math.random() < 0.4) continue;
-      const v = new Vehicle(pick(LEONIDA.trafficMix.filter(t => t !== 'truck')), (lot.x + 1.5 + k * 2) * T, (lot.y + 2) * T, Math.PI / 2);
+      const v = new Vehicle(pick(VERANO.trafficMix.filter(t => t !== 'truck')), (lot.x + 1.5 + k * 2) * T, (lot.y + 2) * T, Math.PI / 2);
       G.vehicles.push(v);
     }
   }

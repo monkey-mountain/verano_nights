@@ -121,8 +121,8 @@ button.primary { background: linear-gradient(90deg, var(--pink), var(--orange));
 }
 .title-inner { margin: auto 0; text-align: center; padding: 24px 16px; max-width: 980px; width: 100%; }
 .logo { display: flex; align-items: center; justify-content: center; gap: 18px; }
-.logo-vi {
-  font-size: clamp(90px, 18vw, 170px); font-weight: 900; line-height: 0.9; font-family: Georgia, 'Times New Roman', serif;
+.logo-mark {
+  font-size: clamp(70px, 14vw, 132px); font-weight: 900; line-height: 0.9; letter-spacing: -2px; font-family: Georgia, 'Times New Roman', serif;
   background: linear-gradient(160deg, #ffd36b 0%, var(--orange) 30%, var(--pink) 60%, var(--purple) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 6px 18px rgba(255, 79, 163, 0.5));
 }
@@ -240,7 +240,7 @@ table.controls th { color: var(--muted); font-weight: 600; width: 45%; }
   #char-badge { top: 8px; font-size: 12px; padding: 4px 10px; }
   .char-card p { display: none; }
   .char-card { width: min(300px, 100%); padding: 10px; }
-  .logo-vi { font-size: 80px; }
+  .logo-mark { font-size: 62px; }
   .logo-text { font-size: 26px; }
   .tagline { margin: 6px 0 10px; font-size: 13px; }
   #title-chars { margin-bottom: 10px; }
